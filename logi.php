@@ -6,10 +6,7 @@ $conexion = new mysqli("localhost:1234", "root", "", "tspvcomm_proveedores_test"
 
 //$conexion = mysql_connect("localhost", "tspvcomm", "CR@P1030!EFM0ti");
 $date = date_create(); 
-//mysql_select_db("tspvcomm_proveedores_test", $conexion);
-/*
-$date = date_create(); 
-mysql_select_db("tspvcomm_proveedores", $conexion);*/
+
 $dia=date("l");
 
 require_once("lib/nusoap.php");
@@ -34,13 +31,15 @@ if($_POST['user'] && $_POST['pass']) {
      $flet=$conexion->query($fletero) or die ("Error con el fletero");
      $oco=$conexion->query($oc_obligatorio) or die ("Error con el usuario con orden de compra obligatoria");
      $prov=$conexion->query($cve_prov) or die ("Error con el proveedor");
+     print_r($prov);
+     var_dump($prov);
      $vResCuliacan=$conexion->query($vcCuliacan) or die ("Error con el usuario Culiacan");
      $vResCdguzman=$conexion->query($vcCdguzman) or die ("Error con el usuario Cd. Guzman");
      
      //$trailero=$conexion->query($flet,0,0);
      $traileroResult = $flet;
      $trailero = $traileroResult->fetch_assoc();
-     
+     print_r( $trailero);
      //$oc_required=$conexion->query($oco,0,0);
      $ocRequiredResult = $oco;
      $oc_required = $ocRequiredResult->fetch_assoc();

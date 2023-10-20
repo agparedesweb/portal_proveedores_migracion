@@ -1,4 +1,4 @@
-<?php
+<?php 
 @$error=$_GET["error"];
 if($error==1){
 	$msg="<div class='tool_tip'><ul class='tt-wrapper'><li><a class='tt-sample' href='#''><img src='img/warning.png' alt=''/><span>Contrase&ntilde;a Inv&aacute;lida</span></a></li></ul></div>";
@@ -18,28 +18,21 @@ elseif($error==2){
 <body onload="document.getElementById('user').focus();">
 	<div id="login">
 	<a href="https://www.aparedes.com.mx"><img id="logo" src="img/logo2.png"></a>
-
 		<h2><span class="fontawesome-lock"></span>Log In</h2>
-
 		<form action="logi.php" name="frmLogin" method="POST">
-
 			<fieldset>
-
 				<p><label for="email">RFC</label></p>
-				<p><input type="text" id="user" name="user" placeholder="Proporciona tu RFC"></p> <!-- JS because of IE support; better: placeholder="mail@address.com" -->
+				<p><input type="text" id="user" name="user" placeholder="Proporciona tu RFC"></p>
 
 				<p><label for="password">Password</label></p>
-				<p><input type="password" id="pass" name="pass"></p> <!-- JS because of IE support; better: placeholder="password" -->
+				<p><input type="password" id="pass" name="pass"></p>
 				<p><label></label><?php echo @$msg2; ?><?php echo @$msg; ?></p>
 				<p><input type="submit" value="Log In" id="loginbtn"></p>
 				<p><a href="#">&#191;Olvidaste la contrase&#241;a&#63;</a></p>	
 			</fieldset>
-
-
-
 		</form>
 
-	</div> <!-- end login -->
+	</div> 
 </body>
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

@@ -2,17 +2,20 @@
 session_start();
 include("seguridad.php");
 date_default_timezone_set('America/Chihuahua');
-/*$conexion = mysql_connect("localhost", "root", "12345");
+
+
+//$conexion = mysql_connect("localhost", "tspvcomm", "CR@P1030!EFM0ti");
+$conexion = new mysqli("localhost:1234", "root", "", "tspvcomm_proveedores_test");
 $date = date_create(); 
-mysql_select_db("system_validator", $conexion);*/
-$conexion = mysql_connect("localhost", "tspvcomm", "CR@P1030!EFM0ti");
-$date = date_create(); 
-mysql_select_db("tspvcomm_proveedores", $conexion);
+
 $cSucursal=@$_SESSION["sucursal"];
 $prov = @$_SESSION["cve_pro"]; 
+
+
 $vqtemp="SELECT CCVE_TEMPORADA FROM CTL_TEMPORADAS WHERE NACTIVO=1 AND CSUCURSAL='".$cSucursal."'";
-$restemp=mysql_query($vqtemp, $conexion) or die ("Error con la temporada");
-$vcTemporada = mysql_result($restemp,0,0); 
+
+$restemp=$conexion->query($vqtemp) or die ("Error con la temporada");
+$vcTemporada = $restemp->fetch_assoc()['CCVE_TEMPORADA'];
 $rqrd="";
 
 function consulta(){
@@ -47,26 +50,7 @@ function consulta(){
 	    }
     }
 }
-/*function consulta(){
-	global $prov;
-	global $rqrd;
-	global $cSucursal;
-	$query=mysql_query("SELECT * FROM inv_ocpendientes WHERE CRELACIONADONC='N' and CCVE_PROVEEDOR='".$prov."' and cSucursal='".$cSucursal."'")or die(mysql_error());
-	$totalRows = mysql_num_rows($query);
-	$row = 0;
-	if($totalRows>0){
-		$rqrd="true";
-		if(@$query){
-			while (@$row = mysql_fetch_assoc(@$query)){
-				echo "<option value=".$row['CORDENCOMPRA'].">".$row['CORDENCOMPRA']."</option>";
-			}
-		}	
-	}
-	else{
-		$rqrd="false";
-	}
-		
-}*/
+
 
 ?> 
 <html>

@@ -10,10 +10,16 @@ $conexion = new mysqli("localhost:1234", "root", "", "tspvcomm_proveedores_test"
 $date = date_create(); 
 //mysql_select_db("tspvcomm_proveedores", $conexion);
 @$valor = $_GET['valor'];
-$trans = $_SESSION['trans']; 
-$sql_temporada=mysql_query("SELECT CCVE_TEMPORADA FROM CTL_TEMPORADAS WHERE NACTIVO=1 AND CSUCURSAL in ('001')");
-$temporada=mysql_result($sql_temporada,0);
-//$temporada="18-19";
+$trans = $_SESSION['trans'];
+
+//$sql_temporada=mysql_query("SELECT CCVE_TEMPORADA FROM CTL_TEMPORADAS WHERE NACTIVO=1 AND CSUCURSAL in ('001')");
+//$temporada=mysql_result($sql_temporada,0);
+
+$sql_temporada="SELECT CCVE_TEMPORADA FROM CTL_TEMPORADAS WHERE NACTIVO=1 AND CSUCURSAL in ('001')";
+$restemp=$conexion->query($sql_temporada) or die ("Error con la temporada");
+$temporada=$restemp->fetch_assoc()['CCVE_TEMPORADA'];
+
+
  
 function consulta(){
 	global $trans;
