@@ -2,12 +2,14 @@
 session_start();
 include("seguridad.php");
 $id=$_SESSION['rfc'];
-/*$conexion = mysql_connect("localhost", "root", "12345");
+
+//$conexion = mysql_connect("localhost", "tspvcomm", "CR@P1030!EFM0ti");
+$conexion = new mysqli("localhost:1234", "root", "", "tspvcomm_proveedores_test");
+if ($conexion->connect_error) {
+    die("Error de conexión a la base de datos: " . $conexion->connect_error);
+}
 $date = date_create(); 
-mysql_select_db("system_validator", $conexion);*/
-$conexion = mysql_connect("localhost", "tspvcomm", "CR@P1030!EFM0ti");
-$date = date_create(); 
-mysql_select_db("tspvcomm_proveedores", $conexion);
+// mysql_select_db("tspvcomm_proveedores", $conexion);
 $row= array();
 $row['folio_interno']="";
 $row['folio_uuid']="";
@@ -123,7 +125,9 @@ $(document).ready(function() {
     						<td style="width: 27%;"><?php echo $row['errores']?></td>	
     					<?php } ?>				
     				</tr>
-    				<?php @$filas++; }while (@$row = mysql_fetch_assoc($query));?>
+    				<?php 
+						$resultado = $conexion->query($query);
+					@$filas++; }while (@$row = mysql_fetch_assoc($query));?>
     				
 	    		</table>
                 <form action="ficheroExcel.php" method="post" target="_blank" id="FormularioExportacion">

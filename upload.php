@@ -23,9 +23,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     //creamos una nueva instancia de la clase multiupload
     $upload = new Multiupload();
     //llamamos a la funcion upFiles y le pasamos el array de campos file del formulario
-    $isUpload = $upload->upFiles($newpdfs,$newfiles,$newmanif);        
+    $isUpload = $upload->upFiles($newpdfs,$newfiles,$newmanif);
+    /////
+
     
     
+    
+    ////
 }else{
     throw new Exception("Error Processing Request", 1);
 }

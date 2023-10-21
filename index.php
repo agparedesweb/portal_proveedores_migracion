@@ -4,22 +4,14 @@ date_default_timezone_set('America/Chihuahua');
 /*$conexion = mysql_connect("localhost", "root", "12345");
 $date = date_create(); 
 mysql_select_db("system_validator", $conexion);*/
-//$conexion = mysql_connect("localhost", "tspvcomm", "CR@P1030!EFM0ti");
-$conexion = new mysqli("localhost:1234", "root", "", "tspvcomm_proveedores_test");
-
+$conexion = mysql_connect("localhost", "tspvcomm", "CR@P1030!EFM0ti");
 $date = date_create(); 
-//mysql_select_db("tspvcomm_proveedores", $conexion);
+mysql_select_db("tspvcomm_proveedores", $conexion);
 @$valor = $_GET['valor'];
-$trans = $_SESSION['trans'];
-
-//$sql_temporada=mysql_query("SELECT CCVE_TEMPORADA FROM CTL_TEMPORADAS WHERE NACTIVO=1 AND CSUCURSAL in ('001')");
-//$temporada=mysql_result($sql_temporada,0);
-
-$sql_temporada="SELECT CCVE_TEMPORADA FROM CTL_TEMPORADAS WHERE NACTIVO=1 AND CSUCURSAL in ('001')";
-$restemp=$conexion->query($sql_temporada) or die ("Error con la temporada");
-$temporada=$restemp->fetch_assoc()['CCVE_TEMPORADA'];
-
-
+$trans = $_SESSION['trans']; 
+$sql_temporada=mysql_query("SELECT CCVE_TEMPORADA FROM CTL_TEMPORADAS WHERE NACTIVO=1 AND CSUCURSAL in ('001')");
+$temporada=mysql_result($sql_temporada,0);
+//$temporada="18-19";
  
 function consulta(){
 	global $trans;
@@ -101,6 +93,7 @@ $(function() {
 $(document).ready(function() {
 	function recargar(){
 	    var x[] = '<?php consulta();?>';
+	    
 		//realizo la call via jquery ajax
 	    $.ajax({
 			url: 'index.php',
@@ -170,10 +163,35 @@ $(function(){
         pos[9]=1;
     })
 });
+function otraFuncion(){
+    console.log("#### otraFuncion ###");
+    //var inputXML = document.getElementsByTagName('xml[]');
+    var inputXML = document.getElementById('inputXML');
+   
+    var archivoXML = inputXML.files[0];
+    
+    // Crea un objeto FileReader para leer el contenido del archivo XML
+    var reader = new FileReader();
+    reader.onload = function(e) {
+    var contenidoXML = e.target.result;
+    // Llama a una función para procesar el contenido del archivo XML
+    procesarXML(contenidoXML);
+  };
+  // Lee el archivo XML como texto
+   reader.readAsText(archivoXML);
+    
+}
+function procesarXML(xmlString) {
+    
+  console.log(xmlString); // Aquí tienes el contenido del archivo XML
+  // Realiza aquí el procesamiento del archivo XML, como analizarlo o realizar otras operaciones.
+  // Puedes usar DOMParser o XMLHttpRequest para trabajar con el archivo XML.
+  // Ejemplo: var xmlDoc = new DOMParser().parseFromString(xmlString, 'text/xml');
+}
 
 
-function changename(v,p)
-{
+function changename(v,p){
+    console.log("#### changename ###");
 	v = v.split('\\');
  	var nom = v[v.length-1];
 	var pdfs = document.getElementsByName('pdf[]');
@@ -181,8 +199,7 @@ function changename(v,p)
 	lbls.innerHTML = nom;
 }
 
-function validando(p)
-{		
+function validando(p){		
 	var suma = 0;
 	//var f = document.frm_index;
 	var pdfs = document.getElementsByName('pdf[]');
@@ -201,6 +218,7 @@ function validando(p)
 	var results=[];	
 	for (var i = 0, j = pdfs.length; i < j; i++) 
  	{
+ 	   
  		results[i]="";
  		pdf_actual=pdfs[i].value;
  		xml_actual=xmls[i].value;
@@ -240,6 +258,7 @@ function validando(p)
     		//si pdf es igual a nulo y si xml es diferente de nulo    		
     		if(ext_xml == ".xml"){
     			results[i]+='Falta el PDF del archivo '+xml_actual;
+    			
  				document.getElementById('loading').style.display = 'none';
  				flag=true;
  			}
@@ -312,7 +331,7 @@ function validando(p)
   										</td>
 										<td>
 											<p class="file">
-												<input type="file" name="xml[]" accept=".xml" onchange="javascript:return changename(this.value,1);">
+												<input type="file" id="inputXML" name="xml[]" accept=".xml" onchange="changename(this.value,1);otraFuncion();">
 												<label id="lbl[1]" for="file">Selecciona tu XML</label>
 											</p>
 										</td>
@@ -332,7 +351,7 @@ function validando(p)
   										</td>
 										<td>
 											<p class="file"> 
-												<input type="file" name="xml[]" accept=".xml" onchange="javascript:return changename(this.value,3);">
+												<input type="file" id="inputXML" name="xml[]" accept=".xml" onchange="changename(this.value,3);otraFuncion();">
 												<label id="lbl[3]" for="file">Selecciona tu XML</label>
 											</p>
 											
@@ -353,7 +372,7 @@ function validando(p)
   										</td>
 										<td>
 											<p class="file">
-												<input type="file" name="xml[]" accept=".xml" onchange="javascript:return changename(this.value,5);">
+												<input type="file" name="xml[]" accept=".xml" onchange="changename(this.value,5);otraFuncion();">
 												<label id="lbl[5]" for="file">Selecciona tu XML</label>
 											</p>
 											

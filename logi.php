@@ -9,6 +9,7 @@ $date = date_create();
 
 $dia=date("l");
 
+
 require_once("lib/nusoap.php");
 
 if($_POST['user'] && $_POST['pass']) {
@@ -30,28 +31,29 @@ if($_POST['user'] && $_POST['pass']) {
      $res_mail=$conexion->query($correo) or die ("Error con el correo");
      $flet=$conexion->query($fletero) or die ("Error con el fletero");
      $oco=$conexion->query($oc_obligatorio) or die ("Error con el usuario con orden de compra obligatoria");
+     
      $prov=$conexion->query($cve_prov) or die ("Error con el proveedor");
-     print_r($prov);
-     var_dump($prov);
+     
      $vResCuliacan=$conexion->query($vcCuliacan) or die ("Error con el usuario Culiacan");
      $vResCdguzman=$conexion->query($vcCdguzman) or die ("Error con el usuario Cd. Guzman");
      
      //$trailero=$conexion->query($flet,0,0);
      $traileroResult = $flet;
-     $trailero = $traileroResult->fetch_assoc();
-     print_r( $trailero);
+     $trailero = $traileroResult->fetch_assoc()['id'];
+     
      //$oc_required=$conexion->query($oco,0,0);
      $ocRequiredResult = $oco;
-     $oc_required = $ocRequiredResult->fetch_assoc();
-
+     
+     $oc_required = $ocRequiredResult->fetch_assoc()['COBLIGAOC'];
+     
      //$trans=$conexion->query($flet,0,1);
      $transResult = $flet;
-     $trans = $transResult->fetch_assoc();
-
+     $trans = $transResult->fetch_assoc()[''];
+    
      //$cve=$conexion->query($prov,0,1);
      $cveResult = $prov;
-     $cve = $cveResult->fetch_assoc();
-
+     $cve = $cveResult->fetch_assoc()['cve_proveedor'];
+     
 
      $numRegistros=$resultado->num_rows;
      $vnRegculiacan=$vResCuliacan->num_rows;
@@ -90,7 +92,7 @@ if($_POST['user'] && $_POST['pass']) {
         else{
             if($oc_required=='S'){
                 if($dia=="Saturday" or $dia=="Friday"){
-                //if($dia=="Monday"){
+                
                     header("location: http://www.aparedes.com.mx/proveedores/standby/"); 
                     $_SESSION["autentica"] = "NO";                   
                 }
@@ -149,3 +151,4 @@ else{
     header("location: log.php?error=2");
 }
 ?>
+

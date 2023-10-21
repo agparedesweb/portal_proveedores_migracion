@@ -2,14 +2,11 @@
 session_start();
 include("seguridad.php");
 date_default_timezone_set('America/Chihuahua');
-/*$conexion = mysql_connect("localhost", "root", "12345");
-$date = date_create(); 
-mysql_select_db("tspvcomm_proveedores", $conexion);*/
 
 //$conexion = mysql_connect("localhost", "tspvcomm", "CR@P1030!EFM0ti");
 $conexion = new mysqli("localhost:1234", "root", "", "tspvcomm_proveedores_test");
 $date = date_create(); 
-//mysql_select_db("tspvcomm_proveedores", $conexion);
+
 $cSucursal=@$_SESSION["sucursal"];
 $prov = $_SESSION["cve_pro"]; 
 
