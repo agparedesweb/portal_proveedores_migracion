@@ -66,29 +66,45 @@ $(document).ready(function() {
 	background: #dedede;
 }
 .bg2{
-	background: #7B7A7A;
+	background: #c1c1c1;
+}
+.valido{
+    background: #4cdd79;
+}
+.fallido{
+    background: #ff6262;
+    width:27%;
 }
 #FormularioExportacion{
-    width: 90%;
-    margin: 0 auto;
-    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 15px;
+    padding-top: 30px;
+    font-size:18px;
 }
 .botonExcel{
     cursor:pointer;
 }
+.botonExcel:hover{
+     opacity: 0.8; /* nueva opacidad en hover */
+}
 </style>
 </head>
 <body>			       
-    <div class="wrap">
-        <div class="header">
-            <div id="prueb">
-                <span id="date"><?php echo date_format($date, 'd-M-Y H:i:s');?></span>
-                <a id="cerrar" href="inicio-normal.php">Regresar</a>
-                <a id="cerrar" href="logout.php">Cerrar sesi&oacute;n</a>
-            </div>
-        <a href="https://www.aparedes.com.mx" target="_blank"><img id="logo" src="img/logo2.png"></a>    
-        </div>                               
-    </div>
+   	<div class="wrap">	 
+			<div class="header">
+				  <img id="logo" src="img/logo2.png">
+				  <div id="prueb">      			
+					  <span id="date"><?php  echo $_SESSION['user']; ?></span>
+					  <?php if(@$_SESSION["bScursal"]==1){ ?>
+						  <a id="regresar" href="inicio-normal.php">Regresar</a>
+					  <?php }?>
+					<a id="cerrar" href="logout.php">Cerrar sesi&oacute;n</a>
+					<div class="clear"></div>	
+				  </div>
+			</div>	  					     
+	</div>
     <div class="main">  
     	<div class="wrap"> 
     		<div class="column_left">
@@ -115,16 +131,16 @@ $(document).ready(function() {
     					<td><?php echo $row['nombre_xml']?></td>
     					<td><?php echo $row['date(reg.fecha)']?></td> 
     					<?php if ($row['valido']==1){?>
-    						<td>XML V&aacute;lido</td>
+    						<td class="valido">XML V&aacute;lido</td>
     					<?php }else{ ?>
-    						<td style="width: 27%;"><?php echo $row['errores']?></td>	
+    						<td class="fallido"><?php echo $row['errores']?></td>	
     					<?php } ?>				
     				</tr>
     				<?php @$filas++; }while (@$row = mysql_fetch_assoc($query));?>
     				
 	    		</table>
                 <form action="ficheroExcel.php" method="post" target="_blank" id="FormularioExportacion">
-                    <img src="img/excel.png" style="width:5%;" class="botonExcel" />
+                    <span>Exportar Resultados a Excel </span><img src="img/excel.png" style="width:5%;" class="botonExcel" />
                 <input type="hidden" id="datos_a_enviar" name="datos_a_enviar" />
                 </form>
         	</div> 
@@ -136,10 +152,10 @@ $(document).ready(function() {
 			</div>
 	</div>
 	<div>
-        <center><a href="https://www.aparedes.com.mx" target="blank"><img style="width:32%" src="img/chiles.gif" alt="Agricola Paredes SA DE CV"/></a></center>
+        <center class="imgFooter"><a href="#" target="blank"><img style="width:15%" src="img/chiles.gif" alt="Agricola Paredes SA DE CV"/></a></center>
 	</div>
 	<div class="copy-right">
-		<p><a href="https://www.aparedes.com.mx">&copy; 2014 Agricola Paredes SA de CV</a> </p>
+		<p><a href="https://www.aparedes.com.mx">&copy; 2024 Agricola Paredes SA de CV</a> </p>
  	</div>   
 </body>
 </html>

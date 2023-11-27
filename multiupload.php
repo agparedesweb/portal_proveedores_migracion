@@ -37,8 +37,9 @@ class Multiupload
         //si no existe la carpeta files la creamos
         if(!is_dir("recibidos/")) 
             mkdir("recibidos/", 0777);
-         
+       
         var_dump($manif); 
+        
         //recorremos los input files del formulario
         foreach($pdfs as $pdf) 
         {   
@@ -66,8 +67,10 @@ class Multiupload
                         foreach($cd as $element)
                         {   
                             foreach ($fol as $folio){
-                                $fols = $folio->getAttribute('folio'); 
+                                $fols = $folio->getAttribute('folio');   
+                                
                                 $serie = $folio->getAttribute('serie');
+                               
                                 $tipo = $folio->getAttribute('tipoDeComprobante');
                                 $versionxml=$folio->getAttribute('version');
                                 $folio_int=$serie.$fols;
@@ -77,7 +80,8 @@ class Multiupload
                                 for ($n=0; $n <= count($mftos)-1; $n++) { 
                                     //echo "Valor de N: ".$n."<br>";
                                     $sel=$mftos[$n];
-                                    var_dump($sel);
+                                     
+                                    //var_dump($sel);
                                     //echo "\n<br>".$sel; 
                                     $query=mysql_query("SELECT CMERCADO FROM eye_maniffacturados WHERE CRELACIONADO='N' AND CFOLIO_REMIS='".$sel."'");
                                     $mercado=mysql_result($query,0);

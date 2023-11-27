@@ -47,26 +47,8 @@ function consulta(){
 	    }
     }
 }
-/*function consulta(){
-	global $prov;
-	global $rqrd;
-	global $cSucursal;
-	$query=mysql_query("SELECT * FROM inv_ocpendientes WHERE CRELACIONADONC='N' and CCVE_PROVEEDOR='".$prov."' and cSucursal='".$cSucursal."'")or die(mysql_error());
-	$totalRows = mysql_num_rows($query);
-	$row = 0;
-	if($totalRows>0){
-		$rqrd="true";
-		if(@$query){
-			while (@$row = mysql_fetch_assoc(@$query)){
-				echo "<option value=".$row['CORDENCOMPRA'].">".$row['CORDENCOMPRA']."</option>";
-			}
-		}	
-	}
-	else{
-		$rqrd="false";
-	}
-		
-}*/
+	
+
 
 ?> 
 <html>
@@ -75,7 +57,7 @@ function consulta(){
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <link href="css/style.css" rel="stylesheet" type="text/css" media="all"/>
 <link href="css/nav.css" rel="stylesheet" type="text/css" media="all"/>
-<link href='http://fonts.googleapis.com/css?family=Carrois+Gothic+SC' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Carrois+Gothic+SC' rel='stylesheet' type='text/css'>
 <link rel="shortcut icon" type="image/png" href="img/favicon.png"/>
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/login.js"></script>
@@ -93,6 +75,8 @@ function consulta(){
 	$(":file").filestyle({buttonBefore: true});
 </script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
 <script type="text/javascript" src="js/moment.js"></script>
 <script>
 $(function() {
@@ -132,6 +116,79 @@ function ocs(p) {
 		document.getElementById('valores' + p).setAttribute("required", "true");	
  	}
 } 
+
+//Funcion para validar XML y leerlo  --20-10-2023
+function validaXML(index){
+    //valida cada input del formulario por separado
+    var inputXML = document.getElementById(index);
+    
+    if (inputXML.files.length != 0) {
+        var archivoXML = inputXML.files[0];
+     
+        // Crea un objeto FileReader para leer el contenido del archivo XML
+        var reader = new FileReader();
+        reader.onload = function(e) {
+        var contenidoXML = e.target.result;
+        
+       // console.log(contenidoXML);
+       
+        // Llama a una funci¨®n para procesar el contenido del archivo XML
+        procesarXML(contenidoXML);
+     };
+        // Lee el archivo XML como texto
+         reader.readAsText(archivoXML);
+    }else{
+        console.log("### No se ha seleccionado ning¨²n archivo XML.");
+    }
+    
+    
+}
+//Procesa y convierte la respuesta del XML para recorrerlo
+function procesarXML(xmlString) {
+    
+  var rfcParedes ="APA9707035N4";
+  var regimenFiscalParedes="622";
+    
+  var parser = new DOMParser();
+  var xmlDoc = parser.parseFromString(xmlString, 'text/xml');
+
+  // se accede a los elementos del archivo XML y procesarlos
+  var receptor = xmlDoc.getElementsByTagName('cfdi:Receptor')[0];
+
+  // Acceder a atributos espec¨ªficos del xml
+  var receptorRfc = receptor.getAttribute('Rfc');
+  var regimenFis = receptor.getAttribute('RegimenFiscalReceptor');
+    //valida RFC y Regimen sean correctos
+  if(regimenFiscalParedes==regimenFis && rfcParedes==receptorRfc){
+      console.log('## Los datos del XML son correctos ##');
+  }else if(regimenFis=='' || regimenFis==null){
+           //Mensaje Informativo
+            Swal.fire({
+                      icon: 'warning',
+                      title: 'Datos incorrectos',
+                      text: 'valida el XML ya que el Regimen Fiscal no corresponde al de la empresa o no esta incluido en el archivo.',
+                      footer: 'Nuestros Datos: RFC: '+ rfcParedes +' | Regimen Fiscal: '+ regimenFiscalParedes +' '    
+                    })    
+  }else if(receptorRfc=='' || receptorRfc==null){
+          //Mensaje Informativo
+            Swal.fire({
+                      icon: 'warning',
+                      title: 'Datos incorrectos',
+                      text: 'valida el XML ya que el RFC no corresponde al de la empresa o no esta incluido en el archivo',
+                      footer: 'Nuestros Datos: RFC: '+ rfcParedes +' | Regimen Fiscal: '+ regimenFiscalParedes +' '    
+                    })     
+  }else{
+            //Mensaje Informativo
+            Swal.fire({
+                      icon: 'warning',
+                      title: 'Datos incorrectos',
+                      text: 'valida el XML ya que no corresponde el RFC y Regimen fiscal con el de la empresa o no estan incluidos en el archivo. ',
+                      footer: 'Nuestros Datos: RFC: '+ rfcParedes +' | Regimen Fiscal: '+ regimenFiscalParedes +' '    
+                    })        
+    }
+}
+
+
 
 function changename(v,p)
 {
@@ -265,16 +322,19 @@ function validando()
 </script>
 </head>
 <body onload="loadOcsNotas(<?php echo "'".$prov."'"; ?>,<?php echo "'".$cSucursal."'"; ?>,<?php echo "'".$vcTemporada."'"; ?>);">			       
-	<div class="wrap">
-		<div class="header">
-			<div id="prueb">
-				<span id="date"><?php echo date_format($date, 'd-M-Y H:i:s');?></span>
-				<a id="cerrar" href="inicio-normal.php">Regresar</a>
-				<a id="cerrar" href="logout.php">Cerrar sesi&oacute;n</a>
-			</div>
-		<a href="https://www.aparedes.com.mx" target="_blank"><img id="logo" src="img/logo2.png"></a>	
-		</div>	    					     
-	</div>
+	<div class="wrap">	 
+			<div class="header">
+				  <img id="logo" src="img/logo2.png">
+				  <div id="prueb">      			
+					  <span id="date"><?php  echo $_SESSION['user']; ?></span>
+					  <?php if(@$_SESSION["bScursal"]==1){ ?>
+						  <a id="regresar" href="inicio-normal.php">Regresar</a>
+					  <?php }?>
+					<a id="cerrar" href="logout.php">Cerrar sesi&oacute;n</a>
+					<div class="clear"></div>	
+				  </div>
+			</div>	  					     
+		</div>
 	  <div class="main">  
 	    <div class="wrap">  		 
 	       <div class="column_left">
@@ -284,10 +344,10 @@ function validando()
 	    		 	   <div class="menu_box_list">
 							<form name="frm_index" action="uploadnc.php" enctype="multipart/form-data" method="post" onsubmit="javascript:return validando();">
 								<table id="lineas" style="width: 100%;text-align: center;">
-									<tr>
-										<td><span>Selecciona tus PDF</span><div class="clear"></div></td>
-										<td><span>Selecciona tus XML</span><div class="clear"></div></td>
-										<td><span>Selecciona la orden de compra</span><div class="clear"></div></td> 								    
+									<tr class="tr_cabecero">
+										<td><span>SELECCIONA PDF'S</span><div class="clear"></div></td>
+										<td><span>SELECCIONA XML</span><div class="clear"></div></td>
+										<td><span>ORDEN DE COMPRA</span><div class="clear"></div></td> 								    
 									</tr>
 									<tr>
 										<td>
@@ -299,7 +359,7 @@ function validando()
 										<td>
 											<p class="file">
 												<!--changename(this.value,1);-->
-												<input type="file" id="1" name="xml[]" accept=".xml" onchange="changename(this.value,1);loadData(this,1);">
+												<input type="file" id="1" name="xml[]" accept=".xml" onchange="changename(this.value,1);loadData(this,1);validaXML(1);">
 												<label id="lbl[1]" for="file">Selecciona tu XML</label>
 											</p>
 										</td>
@@ -318,7 +378,7 @@ function validando()
   										</td>
 										<td>
 											<p class="file"> 
-												<input type="file" id="3" name="xml[]" accept=".xml" onchange="changename(this.value,3);loadData(this,3);">
+												<input type="file" id="3" name="xml[]" accept=".xml" onchange="changename(this.value,3);loadData(this,3);validaXML(3);">
 												<label id="lbl[3]" for="file">Selecciona tu XML</label>
 											</p>
 											
@@ -338,7 +398,7 @@ function validando()
   										</td>
 										<td>
 											<p class="file">
-												<input type="file" id="5" name="xml[]" accept=".xml" onchange="changename(this.value,5);loadData(this,5);">
+												<input type="file" id="5" name="xml[]" accept=".xml" onchange="changename(this.value,5);loadData(this,5);validaXML(5);">
 												<label id="lbl[5]" for="file">Selecciona tu XML</label>
 											</p>
 											
@@ -358,7 +418,7 @@ function validando()
   										</td>
 										<td>
 											<p class="file">
-												<input type="file" id="7" name="xml[]" accept=".xml" onchange="changename(this.value,7);loadData(this,7);">
+												<input type="file" id="7" name="xml[]" accept=".xml" onchange="changename(this.value,7);loadData(this,7);validaXML(7);">
 												<label id="lbl[7]" for="file">Selecciona tu XML</label>
 											</p>
 											
@@ -378,7 +438,7 @@ function validando()
   										</td>
 										<td>
 											<p class="file">
-												<input type="file" id="9" name="xml[]" accept=".xml" onchange="changename(this.value,9);loadData(this,9);">
+												<input type="file" id="9" name="xml[]" accept=".xml" onchange="changename(this.value,9);loadData(this,9);validaXML(9);">
 												<label id="lbl[9]" for="file">Selecciona tu XML</label>
 											</p>
 										</td>
@@ -397,7 +457,7 @@ function validando()
   										</td>
 										<td>
 											<p class="file">
-												<input type="file" id="11" name="xml[]" accept=".xml" onchange="changename(this.value,11);loadData(this,11);">
+												<input type="file" id="11" name="xml[]" accept=".xml" onchange="changename(this.value,11);loadData(this,11);validaXML(11);">
 												<label id="lbl[11]" for="file">Selecciona tu XML</label>
 											</p>
 										</td>
@@ -416,7 +476,7 @@ function validando()
   										</td>
 										<td>
 											<p class="file">
-												<input type="file" id="13" name="xml[]" accept=".xml" onchange="changename(this.value,13);loadData(this,13);">
+												<input type="file" id="13" name="xml[]" accept=".xml" onchange="changename(this.value,13);loadData(this,13);validaXML(13);">
 												<label id="lbl[13]" for="file">Selecciona tu XML</label>
 											</p>
 										</td>
@@ -435,7 +495,7 @@ function validando()
   										</td>
 										<td>
 											<p class="file">
-												<input type="file" id="15" name="xml[]" accept=".xml" onchange="changename(this.value,15);loadData(this,15);">
+												<input type="file" id="15" name="xml[]" accept=".xml" onchange="changename(this.value,15);loadData(this,15);validaXML(15);">
 												<label id="lbl[15]" for="file">Selecciona tu XML</label>
 											</p>
 										</td>
@@ -454,7 +514,7 @@ function validando()
   										</td>
 										<td>
 											<p class="file">
-												<input type="file" id="17" name="xml[]" accept=".xml" onchange="changename(this.value,17);loadData(this,17);">
+												<input type="file" id="17" name="xml[]" accept=".xml" onchange="changename(this.value,17);loadData(this,17);validaXML(17);">
 												<label id="lbl[17]" for="file">Selecciona tu XML</label>
 											</p>
 										</td>
@@ -473,7 +533,7 @@ function validando()
   										</td>
 										<td>
 											<p class="file">
-												<input type="file" id="19" name="xml[]" accept=".xml" onchange="changename(this.value,19);loadData(this,19);">
+												<input type="file" id="19" name="xml[]" accept=".xml" onchange="changename(this.value,19);loadData(this,19);validaXML(19);">
 												<label id="lbl[19]" for="file">Selecciona tu XML</label>
 											</p>
 											
@@ -533,7 +593,7 @@ function validando()
 						if (cTipo=="ingreso" || cTipo=="i" || cTipo=="I") {
 							//alert("El archivo "+namexml+" no corresponde a una nota de credito");
 							Swal.fire({
-							  	title: "InformaciÃ³n",
+							  	title: "Informaci&oacute;n",
 							  	html: "El archivo XML cargado no corresponde al de una nota de credito",
 							  	icon: "info",
 							  	button: "Aceptar",
@@ -550,7 +610,7 @@ function validando()
  	 </div>
    </div>
   		 <div class="copy-right">
-				<p><a href="http://www.aparedes.com.mx">&copy; 2014 Agricola Paredes S.A.P.I. de C.V.</a> </p>
+				<p><a href="http://www.aparedes.com.mx">&copy; 2024 Agricola Paredes S.A.P.I. de C.V.</a> </p>
 	 	 </div>   
 </body>
 </html>

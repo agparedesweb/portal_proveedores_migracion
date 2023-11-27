@@ -128,18 +128,15 @@ function displayIn() {
 </head>
 <body>			       
     <div class="wrap">	 
-        <div class="header">
-      		<a href="http://www.aparedes.com.mx" target="_blank"><img id="logo" src="img/logo2.png"></a>
-      		<span id="date">Hola, <?php  echo $_SESSION['user']; ?></span>
-      		<ul>
-				<li class="logout" id="cerrar"><a href="logout.php">Cerrar sesi&oacute;n</a></li>
-				<div class="clear"></div>		
-			</ul>       
-            <ul>
-                <li class="logout" id="cerrar" style="margin-top: 0.5em;"><a href="consulta_int.php">Regresar</a></li>
-                <div class="clear"></div>       
-            </ul>     				
-		</div>	  					     
+        	<div class="header">
+				<img id="logo" src="img/logo2.png">
+				<div id="prueb">      			
+					<span id="date"><?php  echo $_SESSION['user']; ?></span>					
+					<a id="regresar" href="consulta_int.php">Regresar</a>
+					<a id="cerrar" href="logout.php">Cerrar sesi&oacute;n</a>
+					<div class="clear"></div>	
+      			</div>
+			</div>	  					     
 	</div>
     <div class="main">  
     	<div class="wrap"> 
@@ -184,10 +181,10 @@ function displayIn() {
 			</div>
 	</div>
 	<div>
-        <center><a href="http://www.aparedes.com.mx" target="blank"><img style="width:32%" src="img/chiles.gif" alt="Agricola Paredes SAPI DE CV"/></a></center>
+        <center class="imgFooter"><a href="http://www.aparedes.com.mx" target="blank"><img style="width:15%" src="img/chiles.gif" alt="Agricola Paredes SAPI DE CV"/></a></center>
 	</div>
 	<div class="copy-right">
-		<p><a href="http://www.aparedes.com.mx">&copy; 2014 Agricola Paredes SAPI de CV</a> </p>
+		<p><a href="http://www.aparedes.com.mx">&copy; 2024 Agricola Paredes SAPI de CV</a> </p>
  	</div>   
 </body>
 </html>

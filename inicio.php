@@ -37,14 +37,15 @@ $(function() {
 </head>
 <body>			       
     <div class="wrap">	 
-        <div class="header">
-      		<a href="https://www.aparedes.com.mx" target="_blank"><img id="logo" src="img/logo2.png"></a>
-      		<span id="date">Hola, <?php  echo $_SESSION['user']; ?></span>
-      		<ul>
-				<li class="logout" id="cerrar"><a href="logout.php">Cerrar sesi&oacute;n</a></li>
-				<div class="clear"></div>		
-			</ul>         				
-		</div>	  					     
+        	<div class="header">
+				<img id="logo" src="img/logo2.png">
+				<div id="prueb">      			
+					<span id="date"><?php  echo $_SESSION['user']; ?></span>
+				
+					<a id="cerrar" href="logout.php">Cerrar sesi&oacute;n</a>
+					<div class="clear"></div>	
+      			</div>
+			</div>	  					     
 	</div>
 	    <div class="main">  
 	    	<div class="wrap"> 
@@ -122,7 +123,7 @@ $(function() {
 
   		<div class="copyright text-center">
   			<p>&#191;Tienes alg&uacute;n problema&#63; envianos un correo a la siguiente direcci&oacute;n: <a href="mailto:soporte@aparedes.com.mx">soporte@aparedes.com.mx</a><br>Tel&eacute;fono de asistencia: (667) 760 35 40 Ext.28</p>
-			<p><a href="https://www.aparedes.com.mx">&copy; 2014 Agricola Paredes S.A.P.I. de C.V.</a> </p>
+			<p><a href="https://www.aparedes.com.mx">&copy; 2024 Agricola Paredes S.A.P.I. de C.V.</a> </p>
 	 	</div>   
 </body>
 </html>

@@ -906,7 +906,7 @@ class Multiupload
    //alert(prmProveedor+" "+prmSucursal);
       $.ajax({    
          //url: 'http://192.168.1.22:8000/api/actualizaocportal',
-         url: 'https://api.aparedes.com.mx:8000/api/actualizaocportal',
+         url: 'http://api.aparedes.com.mx:8000/api/actualizaocportal', 
          //url: 'http://177.244.36.158:7373/api/actualizaocportal',
          type: "GET",
          contentType: "application/json; charset=utf-8",

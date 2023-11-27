@@ -21,7 +21,7 @@ $rqrd="";
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <link href="css/style.css" rel="stylesheet" type="text/css" media="all"/>
 <link href="css/nav.css" rel="stylesheet" type="text/css" media="all"/>
-<link href='http://fonts.googleapis.com/css?family=Carrois+Gothic+SC' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Carrois+Gothic+SC' rel='stylesheet' type='text/css'>
 <link rel="shortcut icon" type="image/png" href="img/favicon.png"/>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-message-box@3.2.2/dist/messagebox.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
@@ -74,19 +74,111 @@ $(function() {
 			});	
 		};				
 	});	
+	
+	
+	
+//Funcion para validar XML y leerlo  --20-10-2023
+function validaXML(index,lblID){
+    //valida cada input del formulario por separado
+    var inputXML = document.getElementById(index);
+    
+    if (inputXML.files.length != 0) {
+        var archivoXML = inputXML.files[0];
+     
+        // Crea un objeto FileReader para leer el contenido del archivo XML
+        var reader = new FileReader();
+        reader.onload = function(e) {
+        var contenidoXML = e.target.result;
+        
+       // console.log(contenidoXML);
+       
+        // Llama a una función para procesar el contenido del archivo XML
+        procesarXML(contenidoXML,index,lblID);
+     };
+        // Lee el archivo XML como texto
+         reader.readAsText(archivoXML);
+    }else{
+        console.log("### No se ha seleccionado ningún archivo XML.");
+    }
+    
+    
+}
+//Procesa y convierte la respuesta del XML para recorrerlo
+function procesarXML(xmlString,index,lblID) {
+     
+  var rfcParedes ="APA9707035N4";
+  var regimenFiscalParedes="622";
+    
+  var parser = new DOMParser();
+  var xmlDoc = parser.parseFromString(xmlString, 'text/xml');
+
+  // se accede a los elementos del archivo XML y procesarlos
+  var receptor = xmlDoc.getElementsByTagName('cfdi:Receptor')[0];
+
+  // Acceder a atributos específicos del xml
+  var receptorRfc = receptor.getAttribute('Rfc');
+  var regimenFis = receptor.getAttribute('RegimenFiscalReceptor');
+    //valida RFC y Regimen sean correctos
+  if(regimenFiscalParedes==regimenFis && rfcParedes==receptorRfc){
+      console.log('## Los datos del XML son correctos ##');
+  }else if(regimenFis=='' || regimenFis==null){
+           //Mensaje Informativo
+            Swal.fire({
+                      icon: 'warning',
+                      title: 'Datos incorrectos',
+                      text: 'valida el XML ya que el Regimen Fiscal no corresponde al de la empresa o no esta incluido en el archivo.',
+                      footer: 'Nuestros Datos: RFC: '+ rfcParedes +' | Regimen Fiscal: '+ regimenFiscalParedes +' '    
+                    })    
+                    resetInput(index,lblID);
+  }else if(receptorRfc=='' || receptorRfc==null){
+          //Mensaje Informativo
+            Swal.fire({
+                      icon: 'warning',
+                      title: 'Datos incorrectos',
+                      text: 'valida el XML ya que el RFC no corresponde al de la empresa o no esta incluido en el archivo.',
+                      footer: 'Nuestros Datos:  RFC: '+ rfcParedes +' | Regimen Fiscal: '+ regimenFiscalParedes +' '    
+                    })  
+                    resetInput(index,lblID);
+  }else{
+            //Mensaje Informativo
+            Swal.fire({
+                      icon: 'warning',
+                      title: 'Datos incorrectos',
+                      text: 'valida el XML ya que no corresponde el RFC y Regimen fiscal con el de la empresa o no estan incluidos en el archivo. ',
+                      footer: 'Nuestros Datos:  RFC: '+ rfcParedes +' | Regimen Fiscal: '+ regimenFiscalParedes +' '    
+                    })        
+                    resetInput(index,lblID);
+    }
+}
+// Función para reiniciar el input y cambiar el mensaje de etiqueta
+function resetInput(index,lblID) {
+  var inputXML = document.getElementById('inputXML' + index);
+  var label = document.getElementById('lbl[' + lblID + ']'); // Obtener la etiqueta por ID
+
+  if (inputXML) {
+    inputXML.value = ""; // Borra el valor del elemento input
+  }
+  if (label) {
+    label.textContent = "Selecciona tu XML"; // Cambia el mensaje de etiqueta
+  }
+}	
+	
 </script>
 </head>
 <body onload="loadOcs(<?php echo "'".$prov."'"; ?>,<?php echo "'".$cSucursal."'"; ?>);traeFactorOc(<?php echo "'".$cSucursal."'"; ?>);">			       
-	<div class="wrap">
-		<div class="header">
-			<div id="prueb">
-				<span id="date"><?php echo date_format($date, 'd-M-Y H:i:s');?></span>
-				<a id="cerrar" href="inicio-normal.php">Regresar</a>
-				<a id="cerrar" href="logout.php">Cerrar sesi&oacute;n</a>
-			</div>
-		<a href="http://www.aparedes.com.mx" target="_blank"><img id="logo" src="img/logo2.png"></a>	
-		</div>	    					     
-	</div>
+	<div class="wrap">	 
+			<div class="header">
+				  <img id="logo" src="img/logo2.png">
+				  <div id="prueb">      			
+					  <span id="date"><?php  echo $_SESSION['user']; ?></span>
+					  <?php if(@$_SESSION["bScursal"]==1){ ?>
+						  <a id="regresar" href="inicio-normal.php">Regresar</a>
+					  <?php }?>
+					<a id="cerrar" href="logout.php">Cerrar sesi&oacute;n</a>
+					<div class="clear"></div>	
+				  </div>
+			</div>	  					     
+		</div>
 	  <div class="main">  
 	    <div class="wrap">  		 
 	       <div class="column_left">
@@ -109,7 +201,7 @@ $(function() {
   										</td>
 										<td>
 											<p class="file">
-												<input type="file" id="1" name="xml[]" accept=".xml" onchange="fgVerificaValoresPago(1);changename(this.value,1);loadData(this,1);">
+												<input type="file" id="1" name="xml[]" accept=".xml" onchange="fgVerificaValoresPago(1);changename(this.value,1);loadData(this,1);validaXML(1,1);">
 												<label id="lbl[1]" for="file">Selecciona tu XML</label>
 											</p>
 										</td>
@@ -128,7 +220,7 @@ $(function() {
   										</td>
 										<td>
 											<p class="file"> 
-												<input type="file" id="3" name="xml[]" accept=".xml" onchange="changename(this.value,3);loadData(this,3);fgVerificaValoresPago(3);">
+												<input type="file" id="3" name="xml[]" accept=".xml" onchange="changename(this.value,3);loadData(this,3);fgVerificaValoresPago(3);validaXML(3,3);">
 												<label id="lbl[3]" for="file">Selecciona tu XML</label>
 											</p>
 											
@@ -148,7 +240,7 @@ $(function() {
   										</td>
 										<td>
 											<p class="file">
-												<input type="file" id="5" name="xml[]" accept=".xml" onchange="changename(this.value,5);loadData(this,5);fgVerificaValoresPago(5);">
+												<input type="file" id="5" name="xml[]" accept=".xml" onchange="changename(this.value,5);loadData(this,5);fgVerificaValoresPago(5);validaXML(5,5);">
 												<label id="lbl[5]" for="file">Selecciona tu XML</label>
 											</p>
 											
@@ -168,7 +260,7 @@ $(function() {
   										</td>
 										<td>
 											<p class="file">
-												<input type="file" id="7" name="xml[]" accept=".xml" onchange="changename(this.value,7);loadData(this,7);fgVerificaValoresPago(7);">
+												<input type="file" id="7" name="xml[]" accept=".xml" onchange="changename(this.value,7);loadData(this,7);fgVerificaValoresPago(7);validaXML(7,7);">
 												<label id="lbl[7]" for="file">Selecciona tu XML</label>
 											</p>
 											
@@ -188,7 +280,7 @@ $(function() {
   										</td>
 										<td>
 											<p class="file">
-												<input type="file" id="9" name="xml[]" accept=".xml" onchange="changename(this.value,9);loadData(this,9);fgVerificaValoresPago(9);">
+												<input type="file" id="9" name="xml[]" accept=".xml" onchange="changename(this.value,9);loadData(this,9);fgVerificaValoresPago(9);validaXML(9,9);">
 												<label id="lbl[9]" for="file">Selecciona tu XML</label>
 											</p>
 										</td>
@@ -207,7 +299,7 @@ $(function() {
   										</td>
 										<td>
 											<p class="file">
-												<input type="file" id="11" name="xml[]" accept=".xml" onchange="changename(this.value,11);loadData(this,11);fgVerificaValoresPago(11);">
+												<input type="file" id="11" name="xml[]" accept=".xml" onchange="changename(this.value,11);loadData(this,11);fgVerificaValoresPago(11);validaXML(11,11);">
 												<label id="lbl[11]" for="file">Selecciona tu XML</label>
 											</p>
 										</td>
@@ -226,7 +318,7 @@ $(function() {
   										</td>
 										<td>
 											<p class="file">
-												<input type="file" id="13" name="xml[]" accept=".xml" onchange="changename(this.value,13);loadData(this,13);fgVerificaValoresPago(13);">
+												<input type="file" id="13" name="xml[]" accept=".xml" onchange="changename(this.value,13);loadData(this,13);fgVerificaValoresPago(13);validaXML(13,13);">
 												<label id="lbl[13]" for="file">Selecciona tu XML</label>
 											</p>
 										</td>
@@ -245,7 +337,7 @@ $(function() {
   										</td>
 										<td>
 											<p class="file">
-												<input type="file" id="15" name="xml[]" accept=".xml" onchange="changename(this.value,15);loadData(this,15);fgVerificaValoresPago(15);">
+												<input type="file" id="15" name="xml[]" accept=".xml" onchange="changename(this.value,15);loadData(this,15);fgVerificaValoresPago(15);validaXML(15,15);">
 												<label id="lbl[15]" for="file">Selecciona tu XML</label>
 											</p>
 										</td>
@@ -264,7 +356,7 @@ $(function() {
   										</td>
 										<td>
 											<p class="file">
-												<input type="file" id="17" name="xml[]" accept=".xml" onchange="changename(this.value,17);loadData(this,17);fgVerificaValoresPago(17);">
+												<input type="file" id="17" name="xml[]" accept=".xml" onchange="changename(this.value,17);loadData(this,17);fgVerificaValoresPago(17);validaXML(17,17);">
 												<label id="lbl[17]" for="file">Selecciona tu XML</label>
 											</p>
 										</td>
@@ -283,7 +375,7 @@ $(function() {
   										</td>
 										<td>
 											<p class="file">
-												<input type="file" id="19" name="xml[]" accept=".xml" onchange="changename(this.value,19);loadData(this,19);fgVerificaValoresPago(19);">
+												<input type="file" id="19" name="xml[]" accept=".xml" onchange="changename(this.value,19);loadData(this,19);fgVerificaValoresPago(19);validaXML(19,19);">
 												<label id="lbl[19]" for="file">Selecciona tu XML</label>
 											</p>
 											
@@ -389,7 +481,7 @@ $(function() {
  	 </div>
    </div>
   		 <div class="copy-right">
-				<p><a href="http://www.aparedes.com.mx">&copy; 2014 Agricola Paredes S.A.P.I. de C.V.</a> </p>
+				<p><a href="http://www.aparedes.com.mx">&copy; 2024 Agricola Paredes S.A.P.I. de C.V.</a> </p>
 	 	 </div>   
 </body>
 </html>

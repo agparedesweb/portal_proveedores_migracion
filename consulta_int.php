@@ -69,43 +69,50 @@ $(document).ready(function() {
 	background: #dedede;
 }
 .bg2{
-	background: #7B7A7A;
+    background: #c1c1c1;
+}
+.valido{
+    background: #4cdd79;
+}
+.fallido{
+    background: #ff6262;
+    width:27%;
 }
 #FormularioExportacion{
-    width: 90%;
-    margin: 0 auto;
-    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 15px;
+    padding-top: 30px;
+    font-size: 18px;
 }
 .botonExcel{
     cursor:pointer;
+}
+.botonExcel:hover{
+     opacity: 0.8; /* nueva opacidad en hover */
 }
 </style>
 </head>
 <body>			       
     <div class="wrap">	 
-        <div class="header">
-      		<a href="http://www.aparedes.com.mx" target="_blank"><img id="logo" src="img/logo2.png"></a>
-      		<span id="date">Hola, <?php  echo $_SESSION['user']; ?></span>
-      		<ul>
-				<li class="logout" id="cerrar"><a href="logout.php">Cerrar sesi&oacute;n</a></li>
-                <div class="clear"></div>		
-			</ul>
-            <ul>
-                <li class="logout" id="cerrar" style="margin-top: 0.5em;"><a href="reactivaoc.php">Reactivar Ordenes de Compra</a></li>
-                <div class="clear"></div>       
-            </ul> 
-            <ul>
-                <li class="logout" id="cerrar" style="margin-top: 0.5em;"><a href="delinvoice.php">Eliminar Facturas</a></li>
-                <div class="clear"></div>       
-            </ul>               				
-		</div>	  					     
-	</div>
+        	<div class="header">
+				<img id="logo" src="img/logo2.png">
+				<div id="prueb">      			
+					<span id="date"><?php  echo $_SESSION['user']; ?></span>					
+					<a id="reactiva" href="reactivaoc.php">Reactivar Ordenes de Compra</a>
+					<a id="regresar" href="delinvoice.php">Eliminar Facturas</a>
+					<a id="cerrar" href="logout.php">Cerrar sesi&oacute;n</a>
+					<div class="clear"></div>	
+      			</div>
+			</div>	  					     
+		</div>
     <div class="main">  
     	<div class="wrap"> 
     		<div class="column_left">
     			<form action="consulta_int.php" method="post">
     				<h2>Buscador</h2>
-    				<input id="rfc" name="rfc" type="text"></input>
+    				<input id="rfc" name="rfc" placeholder="Ingrese RFC" type="text"></input>
     				<input id="desde" name="desde" value="<?php echo date_format($date,'Y-m-d') ?>" type="date"></input>
     				<input id="hasta" name="hasta" value="<?php echo date_format($date,'Y-m-d') ?>" type="date"></input>
     				<input type="submit" class="buscar" name="buscar" value="Buscar" onclick="mostrar()"></input>
@@ -127,16 +134,16 @@ $(document).ready(function() {
     					<td><?php echo $row['nombre_xml']?></td>
     					<td><?php echo $row['date(reg.fecha)']?></td> 
     					<?php if ($row['valido']==1){?>
-    						<td>XML V&aacute;lido</td>
+    						<td class='valido'>XML V&aacute;lido</td>
     					<?php }else{ ?>
-    						<td style="width: 27%;"><?php echo $row['errores']?></td>	
+    						<td class='fallido'><?php echo $row['errores']?></td>	
     					<?php } ?>				
     				</tr>
     				<?php @$filas++; }while (@$row = mysql_fetch_assoc($query));?>
     				
 	    		</table>
                 <form action="ficheroExcel.php" method="post" target="_blank" id="FormularioExportacion">
-                    <img src="img/excel.png" style="width:5%;" class="botonExcel" />
+                    <span>Exportar Resultados a Excel </span><img src="img/excel.png" style="width:5%;" class="botonExcel" />
                 <input type="hidden" id="datos_a_enviar" name="datos_a_enviar" />
                 </form>
         	</div> 
@@ -148,10 +155,10 @@ $(document).ready(function() {
 			</div>
 	</div>
 	<div>
-        <center><a href="http://www.aparedes.com.mx" target="blank"><img style="width:32%" src="img/chiles.gif" alt="Agricola Paredes SA DE CV"/></a></center>
+        <center class="imgFooter"><a href="#" target="blank"><img style="width:15%" src="img/chiles.gif" alt="Agricola Paredes SA DE CV"/></a></center>
 	</div>
 	<div class="copy-right">
-		<p><a href="http://www.aparedes.com.mx">&copy; 2014 Agricola Paredes SAPI de CV</a> </p>
+		<p><a href="http://www.aparedes.com.mx">&copy; 2024 Agricola Paredes SAPI de CV</a> </p>
  	</div>   
 </body>
 </html>

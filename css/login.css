@@ -21,13 +21,25 @@
 /* ---------- GENERAL ---------- */
 
 body {
-	background-image:url("../img/plantpepper.jpg");
+	background-color:#f3f3f3;
 	color: #000;
 	font: 100%/1.5em "Varela Round", sans-serif;
     margin: 0;
     background-size: 100%;
 }
-
+.footer{
+    display: flex;
+    flex-direction: column-reverse;
+    color: #fff;
+    min-height: 7em;
+    background-color: #3e971d;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 5px;
+    letter-spacing: 0.1em;
+}
 input {
 	border: none;
 	font-family: inherit;
@@ -38,14 +50,21 @@ input {
 }
 
 /* ---------- LOGIN ---------- */
-
+.imgLogo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 #login {
 	margin: 50px auto;
 	width: 400px;
 }
 #logo{
-	width: 39%;
-	margin: 0px 0px 4px 115px;
+	width:45%;
+	background-color: #fff;
+    padding: 15px;
+    border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 #container_logo{
 	width: 81%;
@@ -53,11 +72,13 @@ input {
 }
 
 #login h2 {
-	background: #488e48;
-	border-radius: 3px 3px 0 0;
-	color: #fff;
-	font-size: 25px;
-	padding: 13px 26px;
+	background: #3e971d;
+    border-radius: 15px;
+    color: #fff;
+    font-size: 25px;
+    padding: 13px 26px;
+    text-align: center;
+    letter-spacing: 0.1em;
 }
 
 #login h2 span[class*="fontawesome-"] {
@@ -66,8 +87,10 @@ input {
 
 #login fieldset {
 	background: #fff;
-	border-radius: 0 0 3px 3px;
-	padding: 13px 26px;
+    border-radius: 15px;
+    padding: 25px 25px;
+    border:none;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 #login fieldset p {
@@ -86,7 +109,8 @@ input {
 }
 
 #login fieldset input {
-	border-radius: 3px;
+	border-radius: 6px;
+	cursor:pointer;
 }
 
 #login fieldset input[type="text"], #login fieldset input[type="password"] {
@@ -97,16 +121,98 @@ input {
 }
 
 #login fieldset input[type="submit"] {
-	background: #488e48;
-	color: #fff;
-	display: block;
-	margin: 0 auto;
-	padding: 4px 0;
-	width: 150px;
+	background: #3e971d;
+    color: #fff;
+    display: block;
+    margin: 0px auto;
+    padding: 10px;
+    width: 170px;
+    margin-top: 40px;
+    font-weight: bold;
+    letter-spacing: 2px;
 }
 
 #login fieldset input[type="submit"]:hover {
-	background: #5f965f;
+	background: #2f892f;
 	transition: all .4s;
-	color:#000;
+	color:#fff;
 }
+
+#login fieldset label{
+  font-weight: bold;
+  color: #000;
+}
+
+
+.tt-wrapper{
+    list-style: none;
+}
+.tt-wrapper span{
+    color:red;
+}
+.tt-wrapper li img{
+   margin-right: 15px;
+}
+.tool_tip{
+    margin-left: -30px;
+}
+
+
+
+
+@media only screen and (min-width: 1200px) {
+ .footer{
+    display: flex;
+    flex-direction: column-reverse;
+    color: #fff;
+    min-height: 11em;
+    margin-top:8em;
+    background-color: #3e971d;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 5px;
+    letter-spacing: 0.1em;
+}
+
+}
+
+
+@media only screen and (min-width: 1300px) {
+ .footer{
+    display: flex;
+    flex-direction: column-reverse;
+    color: #fff;
+    min-height: 7em;
+    background-color: #3e971d;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 5px;
+    letter-spacing: 0.1em;
+}
+
+}
+
+@media screen and (min-width: 1800px) {
+    .footer{
+    display: flex;
+    flex-direction: column-reverse;
+    color: #fff;
+    min-height: 11em;
+    margin-top:11em;
+    background-color: #3e971d;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 5px;
+    letter-spacing: 0.1em;
+}
+}
+
+
+
+

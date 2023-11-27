@@ -49,8 +49,12 @@
 	-o-border-radius:0.8em;
 }
 #logo{
-	width: 17%;
-	margin-bottom: 7px;
+	width: 12%;
+    margin-bottom: 7px;
+    padding: 15px;
+    border-radius: 15px;
+    background-color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 .toggleMenu {
     display:  none;
@@ -78,8 +82,13 @@
 .nav > li > a {
     display: block;
 }
+
 #rfc{
 	margin-bottom: 0.5em;
+    height: 34px;
+    margin-right: 15px;
+    border-radius: 7px;
+
 }
 #busqueda{
 	width: 90%;

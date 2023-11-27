@@ -42,11 +42,11 @@ $(function() {
 <body>			       
     <div class="wrap">	 
         <div class="header">
-      		<a href="https://www.aparedes.com.mx" target="_blank"><img id="logo" src="img/logo2.png"></a>
+      		<img id="logo" src="img/logo2.png">
       		<div id="prueb">      			
-      			<span id="date">Hola, <?php  echo $_SESSION['user']; ?></span>
+      			<span id="date"><?php  echo $_SESSION['user']; ?></span>
       			<?php if(@$_SESSION["bScursal"]==1){ ?>
-      				<a id="cerrar" href="seleccionasucursal.php">Regresar</a>
+      				<a id="regresar" href="seleccionasucursal.php">Regresar</a>
       			<?php }?>
 				<a id="cerrar" href="logout.php">Cerrar sesi&oacute;n</a>
 				<div class="clear"></div>	
@@ -55,55 +55,7 @@ $(function() {
 	</div>
 	    <div class="main">  
 	    	<div class="wrap"> 
-	    		<!--<div id="datos_xml">
-		      			<h2>Nuestros datos fiscales</h2>
-		  	    		<table style="width:100%">
-	  	    				<tr>
-								<td><span>RFC:</span><div class="clear"></div></td>
-								<td><span>APA9707035N4</span><div class="clear"></div></td>
-							</tr>
-							<tr>
-								<td id="linea"><span>Raz&oacute;n Social:</span><div class="clear"></div></td>
-								<td id="linea"><span>AGRICOLA PAREDES S.A.P.I. DE C.V.</span><div class="clear"></div></td>
-							</tr>
-							<tr>
-								<td><span>Calle:</span><div class="clear"></div></td>
-								<td><span>PASEO NI&Ntilde;OS HEROES ORIENTE</span><div class="clear"></div></td>
-							</tr>
-							<tr>
-								<td id="linea"><span>N&uacute;mero Exterior:</span><div class="clear"></div></td>
-								<td id="linea"><span>520</span><div class="clear"></div></td>
-							</tr>
-							<tr>
-								<td><span>N&uacute;mero Interior:</span><div class="clear"></div></td>
-								<td><span>302</span><div class="clear"></div></td>
-							</tr>					
-							<tr>
-								<td id="linea"><span>Colonia:</span><div class="clear"></div></td>
-								<td id="linea"><span>CENTRO</span><div class="clear"></div></td>
-							</tr>
-							<tr>
-								<td><span>Municipio:</span><div class="clear"></div></td>
-								<td><span>CULIACAN</span><div class="clear"></div></td>
-							</tr>
-							<tr>
-								<td id="linea"><span>Estado:</span><div class="clear"></div></td>
-								<td id="linea"><span>SINALOA</span><div class="clear"></div></td>
-							</tr>
-							<tr>
-								<td><span>Pa&iacute;s:</span><div class="clear"></div></td>
-								<td><span>MEXICO</span><div class="clear"></div></td>
-							</tr>
-							<tr>
-								<td id="linea"><span>C&oacute;digo Postal:</span><div class="clear"></div></td>
-								<td id="linea"><span>80000</span><div class="clear"></div></td>
-							</tr>
-						</table>
-						<div style="width: 100%;background: #fff;">
-							<span id="msg_xml">*El XML debe de ser creado con los datos fiscales exactamente como se muestran en la tabla anterior, de lo contrario ser&aacute;n rechazados autom&aacute;ticamente por el validador.</span>
-						</div>
-						
-		  	    	</div>-->
+	    	
 		  	    <div class="column_left2">
 	        		<table style="width: 100%;text-align: center;float:right;">
 						<tr>
@@ -131,7 +83,7 @@ $(function() {
 
   		<div class="copyright text-center">
   			<p>&#191;Tienes alg&uacute;n problema&#63; envianos un correo a la siguiente direcci&oacute;n: <a href="mailto:soporte@aparedes.com.mx">soporte@aparedes.com.mx</a><br>Tel&eacute;fono de asistencia: (667) 760 35 40 Ext.28</p>
-			<p><a href="https://www.aparedes.com.mx">&copy; 2014 Agricola Paredes S.A.P.I. de C.V.</a> </p>
+			<p>&copy; 2024 Agricola Paredes S.A.P.I. de C.V.</a> </p>
 	 	</div>
  	<script type="text/javascript">
  		window.onload = function(){
